@@ -1,7 +1,7 @@
 '''
 Mines of Moria
 
-Last significant modification 2017-09-04.
+Last significant modification 2022-01-25.
 Created before 2016-01-09.
 This program was originally created when I was completing Python the Hard Way in highschool. I wanted to continue working on it, but I did not particularly like the Python language, so I converted it to C. Then I realized that Python is actually way better than C when you are not forced to use unnecessarily complex features of the language, so I converted it back. The structure of the code has been changed a great deal, because I have removed all classes.
 
@@ -10,6 +10,7 @@ The Mines of Moria is an adventure game in which you must lead a band of renegad
 
 from random import randint
 
+# generated using https://texteditor.com/multiline-text-art/
 TITLE_SPLASH = '''░▒█▀▄▀█░░▀░░█▀▀▄░█▀▀░█▀▀░░░▄▀▀▄░█▀▀░░░▒█▀▄▀█░▄▀▀▄░█▀▀▄░░▀░░█▀▀▄
 ░▒█▒█▒█░░█▀░█░▒█░█▀▀░▀▀▄░░░█░░█░█▀░░░░▒█▒█▒█░█░░█░█▄▄▀░░█▀░█▄▄█
 ░▒█░░▒█░▀▀▀░▀░░▀░▀▀▀░▀▀▀░░░░▀▀░░▀░░░░░▒█░░▒█░░▀▀░░▀░▀▀░▀▀▀░▀░░▀'''
@@ -27,7 +28,7 @@ def main():
 		'\tIn this game, you must lead a band of renegades and rangers through an infamous subterranian maze.',
 		'Before we begin, you must choose a name for yourself.',
 		'Make sure that it sounds either epic or hilarious (it\'s up to you).')
-	username = input('==> ')
+	username = response('==> ')
 	# introduce game
 	print(
 		'Get comfortable. Here we go...\n'
@@ -74,8 +75,8 @@ def entrance_hall(previous_scene):
 			'\tYou come back into the Entrance Hall.',
 			'You now have the same options as before.',
 			'You may try the door on the LEFT, the door on the RIGHT, the door with ancient WRITING, or the SMALL door.')
-	
-	decision = input('==> ').lower()
+
+	decision = response('==> ').lower()
 	if decision == 'left':
 		orc_hall('entrance hall')
 	elif decision == 'right':
@@ -112,8 +113,8 @@ def boss_room (previous_scene):
 			'\tSuddenly, a massive bird-like creature flies out of the darkness, talons bared and ready to attack.',
 			'There is no time to strategize.',
 			'Do you FLEE from the massive bird back through the door, or do you ATTACK it and order your companions to do the same?')
-	
-	decision = input('==> ').lower()
+
+	decision = response('==> ').lower()
 	if decision == 'flee':
 		print(
 			'\t"Retreat!" you yell.',
@@ -124,7 +125,7 @@ def boss_room (previous_scene):
 			entrance_hall('boss room')
 		else:
 			dungeon('boss room')
-	   
+
 	elif decision == 'attack':
 		if 'palantri' in inventory:
 			print(
@@ -176,7 +177,7 @@ def closet (previous_scene):
 			'After a minute he says, "You have found a Palantri.',
 			'This ball has certain magical properties, but it is impossible to determine what they might be just by looking at it."',
 			'Do you TAKE the Palantri with you, or LEAVE it, lest its magical powers work against you?')
-		decision = input('==> ').lower()
+		decision = response('==> ').lower()
 		if decision == 'take':
 			inventory.append('palantri')
 			entrance_hall('closet')
@@ -210,8 +211,8 @@ def empty_room (previous_scene):
 			'You look in carefully, to find... um... nothing.',
 			'The room is simple, rectangular, empty, and appears to be a dead-end.',
 			'You can either EXAMINE the room to make sure that there really is not anything important in here, or you can go BACK to the first room and choose a different door.')
-	
-	decision = input('==> ').lower()
+
+	decision = response('==> ').lower()
 	if decision == 'examine':
 		print(
 			'\tYou tell your friends that it is probably best to examine the room before moving on.',
@@ -223,7 +224,7 @@ def empty_room (previous_scene):
 			'It is impossible to get a grip on it, because the gap between it and the rest of the wall is only a millimetre or so.',
 			'Stanli does not know what it might be, but still wants to forget about it and move on.',
 			'Do you listen to him and go BACK to the main hall, or do you act stubbornly and try to MOVE it before giving up?')
-		decision = input('==> ').lower()
+		decision = response('==> ').lower()
 		if decision == 'move':
 			print(
 				'\tSince it is impossible to pull on it, you try pushing it.',
@@ -296,8 +297,8 @@ def dungeon (previous_scene):
 			'They quickly overtake you and you are all soon unceremoniously executed, except for the DLF.',
 			'Because they see him as harmless, they set him free outside and he lives out the rest of his days in the surrounding forest.')
 		return
-	
-	decision = input('==> ').lower()
+
+	decision = response('==> ').lower()
 	if decision == 'first':
 		print(
 			'\tSince (out of those on your team that has hands) he is the best at sneaking, Biblio is elected to try to open the door discretely.',
@@ -312,8 +313,8 @@ def dungeon (previous_scene):
 			'And—wait—is that sunlight?',
 			'Yes, the other door has a window with light streaming through it!',
 			'Do you immediately RUN towards the door screaming (because it feels like years since you have seen the sun), or do you calmly INFORM your comrades and let them talk?')
-			
-		decision = input('==> ').lower()
+
+		decision = response('==> ').lower()
 		if decision == 'run':
 			print(
 				'\t"Freedom!" you yell, as you sprint towards the door.',
@@ -346,6 +347,12 @@ def dungeon (previous_scene):
 		boss_room('dungeon')
 	else:
 		dungeon('dungeon')
+
+def response(prompt):
+	res = input(prompt)
+	if res in {'exit', 'quit'}:
+		raise SystemExit
+	return res
 
 if __name__ == '__main__':
 	main()
