@@ -8,15 +8,16 @@ This program was originally created when I was completing Python the Hard Way in
 The Mines of Moria is an adventure game in which you must lead a band of renegades and rangers through the massive subterranean maze that is the Mines of Moria. The goal is to reach the exit on the East side while suffering as little collateral damage as possible.
 '''
 
-from random import randint
+import random
 
 # generated using https://texteditor.com/multiline-text-art/
 TITLE_SPLASH = '''░▒█▀▄▀█░░▀░░█▀▀▄░█▀▀░█▀▀░░░▄▀▀▄░█▀▀░░░▒█▀▄▀█░▄▀▀▄░█▀▀▄░░▀░░█▀▀▄
 ░▒█▒█▒█░░█▀░█░▒█░█▀▀░▀▀▄░░░█░░█░█▀░░░░▒█▒█▒█░█░░█░█▄▄▀░░█▀░█▄▄█
 ░▒█░░▒█░▀▀▀░▀░░▀░▀▀▀░▀▀▀░░░░▀▀░░▀░░░░░▒█░░▒█░░▀▀░░▀░▀▀░▀▀▀░▀░░▀'''
 
+username = ''
 # player's inventory
-inventory = ['torch']
+inventory = {'torch'}
 
 def main():
 
@@ -28,10 +29,12 @@ def main():
 		'\tIn this game, you must lead a band of renegades and rangers through an infamous subterranian maze.',
 		'Before we begin, you must choose a name for yourself.',
 		'Make it epic or hilarious for bonus points.')
-	username = response('==> ')
-	# introduce game
+	username = input('==> ')
+	print('\tGet comfortable. Here we go...\n')
+	intro()
+
+def intro ():
 	print(
-		'Get comfortable. Here we go...\n'
 		'\n\tYou have been selected to lead a band of adventurers on a dangerous journey to reach the land of Lothlorien.',
 		'With you are Megablockless (an elf), Stanli (a dwarf), Biblio (a hobbit), and a large rodent who everyone lovingly refers to as the ROUS (rodent of unusual size).',
 		'It is rumored that at Lothlorien you may find the answer to life, the universe, and everything.',
@@ -41,7 +44,7 @@ def main():
 		'You and your fellow adventurers have heard the tales about the trecherous caverns that zig-zag their way through this mountain range.',
 		'Only one thing about them is certain: no one has ever come out alive.\n',
 		'\tFor the past hour or so, you and your compatriots have been searching up and down the mountain face, looking for any sign of an entrance, as the main entrance was covered up by rubble hundreds of years ago.\n',
-		'\t"{}! I think I\'ve found something!" you hear Megablockless call up to you.'.format(username),
+		f'\t"{username}! I think I\'ve found something!" you hear Megablockless call up to you.',
 		'You walk down to where he is, and he shows you a small, rectangular slap of stone in the side of the mountain.',
 		'It appears to be some sort of door.',
 		'You call the group together.',
@@ -51,11 +54,10 @@ def main():
 		'You tell him to get to work on it, and you (along with the rest of the group) head back to your base, roughly 200 metres away.\n',
 		'\tSome time later, Stanli comes back to the base and reports that the door has been forced open, and the entrance way appears to be large enough for everyone to fit through.',
 		'After packing up your campsite, your team enters the hole with Stanli in the lead.')
-	entrance_hall('intro')
-	exit(0)
+	entrance_hall(intro)
 
 def entrance_hall(previous_scene):
-	if previous_scene == 'intro':
+	if previous_scene == intro:
 		print(
 			'\tAfter walking through the darkness for a minute or so (crouching because of the limits of the passageway), you hear Stanli say, "I\'m out! I\'m in some kind of room, but I need a light."',
 			'After gathering in the open area, you realize that the torch that you brought with you is quite inadequate, and does not even illuminate the ceiling, which must be at least 5 metres high.',
@@ -66,27 +68,21 @@ def entrance_hall(previous_scene):
 			'When he returns, he says that there is a third door on the far wall that has indecipherable ancient writing on it, and a fourth small door on the right-hand wall.',
 			'Your team looks to you to decide which door to try first.',
 			'Do you go through the door on the LEFT, the door on the RIGHT, the door with ancient WRITING, or the SMALL door?')
-	elif previous_scene == 'entrance hall':
-		print(
-			'\tWhat you entered was not any of the options.',
-			'Type just one of the capitalized words above (then hit enter).')
 	else:
 		print(
 			'\tYou come back into the Entrance Hall.',
 			'You now have the same options as before.',
 			'You may try the door on the LEFT, the door on the RIGHT, the door with ancient WRITING, or the SMALL door.')
 
-	decision = response('==> ').lower()
+	decision = choice({'left', 'right', 'writing', 'small'})
 	if decision == 'left':
-		orc_hall('entrance hall')
-	elif decision == 'right':
-		empty_room('entrance hall')
-	elif decision == 'writing':
-		boss_room('entrance hall')
-	elif decision == 'small':
-		closet('entrance hall')
-	else:
-		entrance_hall('entrance hall')
+		orc_hall(entrance_hall)
+	if decision == 'right':
+		empty_room(entrance_hall)
+	if decision == 'writing':
+		boss_room(entrance_hall)
+	if decision == 'small':
+		closet(entrance_hall)
 
 def orc_hall (previous_scene):
 	print(
@@ -94,38 +90,29 @@ def orc_hall (previous_scene):
 		'Immediately, about twenty orcs rush out of the darkness and attack you!',
 		'Your team is taken completely off-guard, and the orcs have little trouble overcoming you.',
 		'They promptly put a bag over your head, tie your hands behind your back, and drag you deeper into the room.',
-		'You dropped your torch at some point in the ambush, leaving you with nothing to do but hope that the orcs don\'t kill you right away.', end = '')
+		'You dropped your torch at some point in the ambush, leaving you with nothing to do but hope that the orcs don\'t kill you right away.')
 	if 'torch' in inventory:
 		inventory.remove('torch')
-	dungeon('orc hall')
+	dungeon(orc_hall)
 
 def boss_room (previous_scene):
-	if previous_scene == 'boss room':
-		print(
-			'\tWhat you entered was not any of the options.',
-			'Type just one of the capitalized words above (then hit enter).')
-	else:
-		print(
-			'\tYou try the door, and it surprisingly opens freely.',
-			'The room extends about ten metres before the floor turns into a pool of boiling lava, which lights the room.',
-			'There appears to be more solid ground on the other side of the lava, but you cannot tell how far it extends.',
-			'(It may just be an island.)',
-			'There are no ledges along the edge of the pool, making it impossible to cross.\n',
-			'\tSuddenly, a massive bird-like creature flies out of the darkness, talons bared and ready to attack.',
-			'There is no time to strategize.',
-			'Do you FLEE from the massive bird back through the door, or do you ATTACK it and order your companions to do the same?')
+	print(
+		'\tYou try the door, and it surprisingly opens freely.',
+		'The room extends about ten metres before the floor turns into a pool of boiling lava, which lights the room.',
+		'There appears to be more solid ground on the other side of the lava, but you cannot tell how far it extends.',
+		'(It may just be an island.)',
+		'There are no ledges along the edge of the pool, making it impossible to cross.\n',
+		'\tSuddenly, a massive bird-like creature flies out of the darkness, talons bared and ready to attack.',
+		'There is no time to strategize.',
+		'Do you FLEE from the massive bird back through the door, or do you ATTACK it and order your companions to do the same?')
 
-	decision = response('==> ').lower()
+	decision = choice({'flee', 'attack'})
 	if decision == 'flee':
 		print(
 			'\t"Retreat!" you yell.',
 			'You and your companions run back through the door.',
 			'The ROUS is the last one through, and closes the door behind him just in time.')
-		# return to previous scene
-		if previous_scene == 'entrance hall':
-			entrance_hall('boss room')
-		else:
-			dungeon('boss room')
+		previous_scene(boss_room)
 	elif decision == 'attack':
 		if 'palantri' in inventory:
 			print(
@@ -139,11 +126,7 @@ def boss_room (previous_scene):
 				'You gently catch it.',
 				'You and your team breath a sigh of relief.',
 				'There is still no way to traverse the lava, however, so you are forced to return to the previous room.')
-			# return to previous scene
-			if previous_scene == 'entrance hall':
-				entrance_hall('boss room')
-			else:
-				dungeon('boss room')
+		# attacking without palantiri
 		else:
 			print(
 				'\t"Attack!" you call.',
@@ -152,9 +135,8 @@ def boss_room (previous_scene):
 				'\tI won\'t get into any of the gruesome details, but basically you all die.\n',
 				'\tThe ROUS, after grieving your deaths, would eventually leave the mines (through the path that your team took) and live out the rest of his days in the surrounding forest.\n',
 				'\tThe end.')
-			return
-	else:
-		boss_room('boss room')
+			exit()
+		previous_scene(boss_room)
 
 def closet (previous_scene):
 	print(
@@ -163,7 +145,7 @@ def closet (previous_scene):
 		'It has an obvious, convenient handle, and opens easily.',
 		'Inside, you see that it is a closet with a few cleaning supplies.',
 		'Your friends begin to laugh at you.')
-	if 'palantri' not in inventory and randrange(10) == 9:
+	if 'palantri' not in inventory and random.randrange(6) == 5:
 		print(
 			'\tYou, however, undeterred by their cackling, being to search through it.',
 			'On one of the shelves, behind several rolls of quarter-ply toilet paper (dwarves have never cared much for comfort), you see something reflect the dim torch light.',
@@ -177,42 +159,30 @@ def closet (previous_scene):
 			'After a minute he says, "You have found a Palantri.',
 			'This ball has certain magical properties, but it is impossible to determine what they might be just by looking at it."',
 			'Do you TAKE the Palantri with you, or LEAVE it, lest its magical powers work against you?')
-		decision = response('==> ').lower()
+		def drop_palantiri ():
+			print('You drop the Palantri on the floor, and it smashes into pieces. Smooth move. A strange mist begins to rise up out of the broken pieces. Then it starts coming faster. You reflexively back away, but the mist accelerates outward and quickly surrounds the group. Everyone begins coughing as they breathe in the mist. After only a few seconds, you see that Biblio has passed out and fallen on the floor. Within a minute, everyone has passed out. You never wake up.',
+			'\tThe end.')
+			exit()
+		decision = choice({'take', 'leave'}, invalid_func=drop_palantiri)
 		if decision == 'take':
-			inventory.append('palantri')
-			entrance_hall('closet')
-		elif decision != 'leave':
-			print(
-				'\tWhat you entered was not any of the options.',
-				'You drop the Palantri on the floor, and it smashes into pieces.',
-				'Smooth move.',
-				'A strange mist begins to rise up out of the broken pieces.',
-				'Then it starts coming faster.',
-				'You reflexively back away, but the mist accelerates outward and quickly surrounds the group.',
-				'Everyone begins coughing as they breathe in the mist.',
-				'After only a few seconds, you see that Biblio has passed out and fallen on the floor.',
-				'Within a minute, everyone has passed out.',
-				'You never wake up.\n',
-				'\tThe end.')
-			return
-	else:
-		entrance_hall('closet')
+			inventory.add('palantri')
+	entrance_hall(closet)
 
 def empty_room (previous_scene):
-	if previous_scene == 'empty_room':
-		print(
-			'\tWhat you entered was not any of the options.',
-			'Type just one of the capitalized words above (then hit enter).')
 	# must be coming from entrance hall
-	else:
-		print(
-			'\t"Let\'s try the door on the right," you say.',
-			'Stanli helps you open the large door.',
-			'You look in carefully, to find ... um ... nothing.',
-			'The room is simple, rectangular, empty, and appears to be a dead-end.',
-			'Do you EXAMINE the room or go BACK to the first room to choose a different door?')
+	print(
+		'\t"Let\'s try the door on the right," you say.',
+		'Stanli helps you open the large door.',
+		'You look in carefully, to find ... um ... nothing.',
+		'The room is simple, rectangular, empty, and appears to be a dead-end.',
+		'Do you EXAMINE the room or go BACK to the first room to choose a different door?')
 
-	decision = response('==> ').lower()
+	def stanli_leads ():
+		print('\tInvalid option.',
+		'\tYou stumble over your words, and Stanli makes the call for you.',
+		'"We\'re trying a different way."')
+		entrance_hall(empty_room)
+	decision = choice({'examine', 'back'}, invalid_func=stanli_leads)
 	if decision == 'examine':
 		print(
 			'\tYou tell your friends that it is probably best to examine the room before moving on.',
@@ -224,7 +194,7 @@ def empty_room (previous_scene):
 			'It is impossible to get a grip on it, because the gap between it and the rest of the wall is only a millimetre or so.',
 			'Stanli does not know what it might be, but still wants to forget about it and move on.',
 			'Do you listen to him and go BACK to the main hall, or do you act stubbornly and try to MOVE it before giving up?')
-		decision = response('==> ').lower()
+		decision = choice({'move', 'back'}, invalid_func=stanli_leads)
 		if decision == 'move':
 			print(
 				'\tSince it is impossible to pull on it, you try pushing it.',
@@ -251,30 +221,16 @@ def empty_room (previous_scene):
 				'You have made it out! You give a hollar of joy as you crawl out and stand up.',
 				'The rest of your team gathers behind you, squinting in the bright sunlight.',
 				'Stanli looks sheepish, but does not say anything.\n'
-				'\tCongradulations! You won!.')
+				'\tCongratulations! You won!.')
 		elif decision == 'back':
-			entrance_hall('empty_room')
-		else:
-			print(
-				'\tWhat you entered was not any of the options.',
-				'You stumble over your words, and Stanli makes the call for you.',
-				'"We\'re trying a different way."')
-			entrance_hall('empty_room')
+			entrance_hall(empty_room)
 	elif decision == 'back':
-		entrance_hall('empty_room')
-	else:
-		empty_room('empty_room')
+		entrance_hall(empty_room)
 
 def dungeon (previous_scene):
-	if previous_scene == 'dungeon':
+	if previous_scene == orc_hall:
 		print(
-			'\tWhat you entered was not any of the options.',
-			'You trip over one of the head bags in the darkness and hit your head on the wall.',
-			'You still have the same options: FIRST or SECOND?')
-	elif previous_scene == 'orc hall':
-		print(
-			# the omission of the \t below is intentional
-			'They continue to take you through several passageways (it\'s impossible to know just how many) and eventually stop, throwing you on the ground.',
+			'\tThey continue to take you through several passageways (it\'s impossible to know just how many) and eventually stop, throwing you on the ground.',
 			'You hear your compatriots come in, their voices muffled by the bags on their heads.',
 			'You hear the orcs leave, and begin to work your way out of the rope around your wrists.',
 			'This does not take long, as orcs are terrible at tying knots.',
@@ -296,9 +252,12 @@ def dungeon (previous_scene):
 			'When you burst out you find that there were actually many more orcs that Biblio was not able to see through the crack.',
 			'They quickly overtake you and you are all soon unceremoniously executed, except for the ROUS.',
 			'Because they see him as harmless, they set him free outside and he lives out the rest of his days in the surrounding forest.')
-		return
 
-	decision = response('==> ').lower()
+	def trip ():
+		print('\tInvalid option',
+		'\tYou trip over one of the head bags in the darkness and hit your head on the wall.',
+		'\tTry again.')
+	decision = choice({'first', 'second'}, invalid_func=trip)
 	if decision == 'first':
 		print(
 			'\tSince (out of those on your team that has hands) he is the best at sneaking, Biblio is elected to try to open the door discretely.',
@@ -314,7 +273,7 @@ def dungeon (previous_scene):
 			'Yes, the other door has a window with light streaming through it!',
 			'Do you immediately RUN towards the door screaming (because it feels like years since you have seen the sun), or do you calmly INFORM your comrades and let them talk?')
 
-		decision = response('==> ').lower()
+		decision = choice({'run', 'inform'})
 		if decision == 'run':
 			print(
 				'\t"Freedom!" you yell, as you sprint towards the door.',
@@ -328,7 +287,7 @@ def dungeon (previous_scene):
 				'It\'s locked.',
 				'The window in the door is not large enough for any of you to fit through.',
 				'So much for that.\n',
-				'\tCongradulations, you won (though not in the best way).')
+				'\tCongratulations. You won, I guess.')
 		elif decision == 'inform':
 			print(
 				'\t"We can get out!" you say in a reasonable tone, pointing.',
@@ -342,16 +301,24 @@ def dungeon (previous_scene):
 				'Stanli, thinking quickly—which he does not do very often—grabs the chest, heaves it up onto his shoulder, and follows behind the group.',
 				'Everyone gathers outside, and you quickly close the door behind Stanli.',
 				'You made it out, and everyone gets treasure!\n',
-				'\tCongradulations, you won!')
+				'\tCongratulations, you won!')
 	elif decision == 'second':
-		boss_room('dungeon')
+		boss_room(dungeon)
 	else:
-		dungeon('dungeon')
+		dungeon(dungeon)
 
-def response(prompt):
-	res = input(prompt)
+def choice(options, invalid_func=None):
+	res = input('==> ').lower()
 	if res in {'exit', 'quit'}:
 		raise SystemExit
+	if invalid_func:
+		while res not in options:
+			invalid_func()
+			res = input('==> ').lower()
+	else:
+		while res not in options:
+			print('\tInvalid choice. Try again.')
+			res = input('==> ').lower()
 	return res
 
 if __name__ == '__main__':
