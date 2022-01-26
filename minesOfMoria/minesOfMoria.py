@@ -27,13 +27,13 @@ def main():
 		'As you are playing, make sure to scroll up if and when necessary, so that you don\'t miss part of the story; that would be very confusing.\n',
 		'\tIn this game, you must lead a band of renegades and rangers through an infamous subterranian maze.',
 		'Before we begin, you must choose a name for yourself.',
-		'Make sure that it sounds either epic or hilarious (it\'s up to you).')
+		'Make it epic or hilarious for bonus points.')
 	username = response('==> ')
 	# introduce game
 	print(
 		'Get comfortable. Here we go...\n'
 		'\n\tYou have been selected to lead a band of adventurers on a dangerous journey to reach the land of Lothlorien.',
-		'With you are Megablockless (an elf), Stanli (a dwarf), Biblio (a hobbit), and a large rodent who everyone lovingly refers to as the DLF (Dear Little Friend).',
+		'With you are Megablockless (an elf), Stanli (a dwarf), Biblio (a hobbit), and a large rodent who everyone lovingly refers to as the ROUS (rodent of unusual size).',
 		'It is rumored that at Lothlorien you may find the answer to life, the universe, and everything.',
 		'(Obviously you have not read the Hitchhiker\'s Guide to the Galaxy.)',
 		'You have travelled nigh on a fortnight, passing through forests, swamps, rivers, glens (whatever those are), dales (who knows?) and the occasional valley.',
@@ -63,7 +63,7 @@ def entrance_hall(previous_scene):
 			'The far wall in front of you is not visible through the darkness.',
 			'To the right you can see a second door made of roughly hewn wood.',
 			'You decide to send Megablockless (by far the fastest runner) to explore the far end of the room.',
-			'When he returns, he says that there is a third door on the far wall that has (indecipherable) ancient writing on it, and a fourth small door on the right-hand wall.',
+			'When he returns, he says that there is a third door on the far wall that has indecipherable ancient writing on it, and a fourth small door on the right-hand wall.',
 			'Your team looks to you to decide which door to try first.',
 			'Do you go through the door on the LEFT, the door on the RIGHT, the door with ancient WRITING, or the SMALL door?')
 	elif previous_scene == 'entrance hall':
@@ -87,6 +87,7 @@ def entrance_hall(previous_scene):
 		closet('entrance hall')
 	else:
 		entrance_hall('entrance hall')
+
 def orc_hall (previous_scene):
 	print(
 		'\tYou burst through the well-decorated door, not sure what to expect.',
@@ -119,13 +120,12 @@ def boss_room (previous_scene):
 		print(
 			'\t"Retreat!" you yell.',
 			'You and your companions run back through the door.',
-			'The DLF is the last one through, and closes the door behind him just in time.')
+			'The ROUS is the last one through, and closes the door behind him just in time.')
 		# return to previous scene
 		if previous_scene == 'entrance hall':
 			entrance_hall('boss room')
 		else:
 			dungeon('boss room')
-
 	elif decision == 'attack':
 		if 'palantri' in inventory:
 			print(
@@ -148,9 +148,9 @@ def boss_room (previous_scene):
 			print(
 				'\t"Attack!" you call.',
 				'Megablockless immediately fires two arrows at the beast, but they do not hinder it in the least.',
-				'It swoops down, grabs all of you except the DLF, and flies out over the lava with you in its talons.\n',
+				'It swoops down, grabs all of you except the ROUS, and flies out over the lava with you in its talons.\n',
 				'\tI won\'t get into any of the gruesome details, but basically you all die.\n',
-				'\tThe DLF, after grieving your deaths, would eventually leave the mines (through the path that your team took) and live out the rest of his days in the surrounding forest.\n',
+				'\tThe ROUS, after grieving your deaths, would eventually leave the mines (through the path that your team took) and live out the rest of his days in the surrounding forest.\n',
 				'\tThe end.')
 			return
 	else:
@@ -163,11 +163,11 @@ def closet (previous_scene):
 		'It has an obvious, convenient handle, and opens easily.',
 		'Inside, you see that it is a closet with a few cleaning supplies.',
 		'Your friends begin to laugh at you.')
-	if 'palantri' not in inventory and randint(0, 9) == 9:
+	if 'palantri' not in inventory and randrange(10) == 9:
 		print(
-			'You, however, undeterred by their cackling, being to search through it.',
+			'\tYou, however, undeterred by their cackling, being to search through it.',
 			'On one of the shelves, behind several rolls of quarter-ply toilet paper (dwarves have never cared much for comfort), you see something reflect the dim torch light.',
-			'Reaching in, you pull out a smooth, black ball with a radius of approximately three centimetres.',
+			'Reaching in, you pull out a smooth, black ball, three centimetres in radius.',
 			'It is probably a gemstone.',
 			'Having no idea what its value might be, you decide to put it in your bag.',
 			'Just as you go to do so, however, Stanli suddenly stops laughing and says, "Wait!"',
@@ -208,9 +208,9 @@ def empty_room (previous_scene):
 		print(
 			'\t"Let\'s try the door on the right," you say.',
 			'Stanli helps you open the large door.',
-			'You look in carefully, to find... um... nothing.',
+			'You look in carefully, to find ... um ... nothing.',
 			'The room is simple, rectangular, empty, and appears to be a dead-end.',
-			'You can either EXAMINE the room to make sure that there really is not anything important in here, or you can go BACK to the first room and choose a different door.')
+			'Do you EXAMINE the room or go BACK to the first room to choose a different door?')
 
 	decision = response('==> ').lower()
 	if decision == 'examine':
@@ -237,13 +237,13 @@ def empty_room (previous_scene):
 				'You start to walk over slowly, dumbfounded.',
 				'Suddenly, you are stopped by the loud noise of rock smashing deep in the mines below you.',
 				'After pausing for a few seconds, you continue to walk towards where the wall once stood.',
-				'As you approach it, you see that there is a gap in the floor, as wide as the room and approximately three decimetres long.',
+				'As you approach it, you see that there is a gap in the floor, as wide as the room and about three decimetres long.',
 				'You realize that the wall was a loose slab of rock that has now fallen out of its place.',
 				'It must have been the wall itself that you heard break deep in the caverns below.',
 				'Everyone is still too shocked to speak.',
 				'You gesture towards the others to follow you.',
-				'They begin to obey, and Megablockless picks up the DLF, as he is the only one who is unable to step across the gap.',
-				'The passageway that has appeared becomes smaller as it goes on, forcing everyone except for the DLF to crawl.\n',
+				'They begin to obey, and Megablockless picks up the ROUS, as he is the only one who is unable to step across the gap.',
+				'The passageway that has appeared becomes smaller as it goes on, forcing everyone except for the ROUS to crawl.\n',
 				'\tA few minutes pass, and everyone continues to shuffle along behind you, not saying a word.',
 				'You see an end to the passageway a few metres ahead.',
 				'When you reach it, you are able only to push it slightly before it gives way, and a flood of light bursts in.',
@@ -292,9 +292,9 @@ def dungeon (previous_scene):
 			'Since (out of those on your team that has hands) he is the best at sneaking, Biblio is elected to try to open the door discretely.',
 			'It opens a crack without any hindrance, and he whispers to the rest of you that there are two orcs guarding the entrance.',
 			'Your team groups around the door and prepares to burst out.',
-			'You lead the charge, but resist the urge to yell "Charge!", as this might alert other orcs in the vicinity of your jailbreak.',
+			'You lead the charge, but resist the urge to yell "Charge!".',
 			'When you burst out you find that there were actually many more orcs that Biblio was not able to see through the crack.',
-			'They quickly overtake you and you are all soon unceremoniously executed, except for the DLF.',
+			'They quickly overtake you and you are all soon unceremoniously executed, except for the ROUS.',
 			'Because they see him as harmless, they set him free outside and he lives out the rest of his days in the surrounding forest.')
 		return
 
@@ -322,7 +322,7 @@ def dungeon (previous_scene):
 				'You breath deeply and take a moment to appreciate the view.',
 				'You then remember the chests in the room.',
 				'Is it possible that there was treasure in them?',
-				'Stanli comfirms your suspicision.',
+				'Stanli comfirms your suspicion.',
 				'You try the door.',
 				'Nope.',
 				'It\'s locked.',
